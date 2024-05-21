@@ -1,0 +1,68 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+!.env
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+
+# Environment variables
+.env.local
+.env.*.local
+
+# Local build cache
+.cache/
+public/assets/
+public/static/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Jest coverage directory
+coverage/
+
+# Storybook files
+storybook-static/
+
+# SASS cache
+.sass-cache/
+
+# Compiled JavaScript
+*.js
+*.jsx
+
+# Compiled TypeScript
+*.ts
+*.tsx
+*.d.ts
+
+# Compiled CSS
+*.css
+*.scss
+
+# Vue press
+.vuepress/dist
+
+# Nuxt.js build directory
+.nuxt/
+
+# Nuxt.js generated files
+generate/
+
+# Temp file
+temp/
