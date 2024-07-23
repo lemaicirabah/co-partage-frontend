@@ -4,11 +4,13 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
-  policy: push
 
 stages:
   - install
   - build
+
+before_script:
+  - yarn install --frozen-lockfile
 
 install:
   stage: install
