@@ -1,0 +1,42 @@
+image: node:16
+
+stages:
+  - install
+  - test
+  - build
+
+cache:
+  paths:
+    - node_modules/
+
+variables:
+  NODE_ENV: 'development'
+  VUE_APP_API_BASE_URL: 'http://localhost:8080' # Example of a custom environment variable for development
+
+before_script:
+  - npm install
+
+install_dependencies:
+  stage: install
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+test:
+  stage: test
+  script:
+    - npm run build
+  artifacts:
+    when: always
+    paths:
+      - dist/
+
+build:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
