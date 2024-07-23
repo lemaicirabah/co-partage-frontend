@@ -18,6 +18,3 @@ build:
   stage: build
   script:
     - yarn build
-
-before_script:
-  - yarn cache clean
