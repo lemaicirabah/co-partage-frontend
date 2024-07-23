@@ -10,7 +10,7 @@ cache:
 
 variables:
   NODE_ENV: 'production'
-  VITE_API_BASE_URL: 'http://localhost:8080' # Update if needed
+  VITE_API_BASE_URL: 'http://localhost:3000'
 
 before_script:
   - npm install
