@@ -1,31 +1,42 @@
 image: node:16
 
 stages:
+  - clear_cache
   - install
   - build
 
 cache:
   paths:
     - node_modules/
+    - .vite/
 
 variables:
   NODE_ENV: 'production'
   VITE_API_BASE_URL: 'http://localhost:3000'
 
 before_script:
-  - npm install
+  - npm ci
+
+clear_cache:
+  stage: clear_cache
+  script:
+    - rm -rf node_modules/
+    - rm -rf .vite/
 
 install_dependencies:
   stage: install
   script:
-    - npm ci
+    - npm install
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
 
 build:
   stage: build
   script:
+    - npx vue-tsc --noEmit --verbose
     - npm run build
   artifacts:
     paths:
       - dist/
-    reports:
-      junit: report.xml
