@@ -20,4 +20,4 @@ install:
 build:
   stage: build
   script:
-    - yarn build --verbose
+    - yarn build
