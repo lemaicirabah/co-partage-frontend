@@ -1,23 +1,25 @@
 image: node:18-buster
 
+stages:
+  - build
+
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
-
-stages:
-  - install
-  - build
+    - .yarn-cache/
+    - .cache/
 
 before_script:
+  - yarn cache clean
   - yarn install --frozen-lockfile
-
-install:
-  stage: install
-  script:
-    - yarn install --frozen-lockfile
 
 build:
   stage: build
   script:
+    - node -v
+    - yarn -v
+    - yarn list
+    - yarn vue-tsc --noEmit || true
+    - yarn tsc --noEmit --extendedDiagnostics || true
     - yarn build
