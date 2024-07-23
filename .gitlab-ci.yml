@@ -11,10 +11,6 @@ stages:
 
 before_script:
   - yarn install --frozen-lockfile
-  - echo "Listing files in /builds/montpetit.carl/co-partage-frontend/src"
-  - ls -al /builds/montpetit.carl/co-partage-frontend/src
-  - echo "Checking if /builds/montpetit.carl/co-partage-frontend/src/main.ts exists"
-  - test -f /builds/montpetit.carl/co-partage-frontend/src/main.ts && echo "main.ts exists" || echo "main.ts does not exist"
 
 install:
   stage: install
