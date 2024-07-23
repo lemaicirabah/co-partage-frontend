@@ -9,7 +9,7 @@ cache:
 
 install:
   stage: install
-  image: node:16
+  image: node:18
   script:
     - yarn install --frozen-lockfile
   artifacts:
@@ -19,7 +19,7 @@ install:
 
 build:
   stage: build
-  image: node:16
+  image: node:18
   script:
     - yarn build
   artifacts:
