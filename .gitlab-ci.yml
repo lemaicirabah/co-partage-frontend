@@ -2,11 +2,13 @@ stages:
   - install
   - build
 
+# Cache dependencies to speed up subsequent builds
 cache:
   paths:
     - node_modules/
     - .yarn/cache/
 
+# Install dependencies
 install:
   stage: install
   image: node:18
@@ -17,11 +19,16 @@ install:
       - node_modules/
       - .yarn/cache/
 
+# Build the project
 build:
   stage: build
   image: node:18
   script:
     - yarn build
+  dependencies:
+    - install
   artifacts:
     paths:
       - dist/
+  only:
+    - branches
