@@ -11,7 +11,7 @@ cache:
 
 variables:
   NODE_ENV: 'development'
-  VUE_APP_API_BASE_URL: 'http://localhost:8080' # Example of a custom environment variable for development
+  VUE_APP_API_BASE_URL: 'http://localhost:3000'
 
 before_script:
   - npm install
