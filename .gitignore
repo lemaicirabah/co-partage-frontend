@@ -46,10 +46,11 @@ storybook-static/
 *.js
 *.jsx
 
-# Compiled TypeScript
-*.ts
-*.tsx
-*.d.ts
+# Compiled TypeScript (ignore only the build output, not source files)
+# Uncomment these lines if you have a specific directory for build output
+# For example, if your build output is in a `build` directory:
+# build/**/*.ts
+# build/**/*.tsx
 
 # Compiled CSS
 *.css
