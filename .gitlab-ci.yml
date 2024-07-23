@@ -1,9 +1,10 @@
-image: node:18
+image: node:18-buster
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
+  policy: push
 
 stages:
   - install
@@ -12,9 +13,9 @@ stages:
 install:
   stage: install
   script:
-    - yarn install
+    - yarn install --frozen-lockfile
 
 build:
   stage: build
   script:
-    - yarn build
+    - yarn build --verbose
