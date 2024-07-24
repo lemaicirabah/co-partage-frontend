@@ -22,4 +22,4 @@ build:
     - yarn list
     - yarn vue-tsc --noEmit || true
     - yarn tsc --noEmit --extendedDiagnostics || true
-    - yarn build
+    - yarn vite build --debug
