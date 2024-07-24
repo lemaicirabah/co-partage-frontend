@@ -28,7 +28,7 @@ test:
   stage: test
   script:
     - yarn global add pm2
-    - pm2 start --name "dev" --interpreter bash -- bash -c "yarn dev"
+    - pm2 start yarn --name "dev" --interpreter bash -- run dev
     - sleep 30 # Wait for the app to start
     - curl -I http://localhost:3000 # Check if the app is running
   after_script:
