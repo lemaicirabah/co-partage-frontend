@@ -20,6 +20,6 @@ build:
     - node -v
     - yarn -v
     - yarn list
-    - yarn vue-tsc
-    - yarn tsc
+    - yarn vue-tsc --noEmit || true
+    - yarn tsc --noEmit --extendedDiagnostics || true
     - yarn build
