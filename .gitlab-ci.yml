@@ -20,9 +20,17 @@ build:
   script:
     - node -v
     - yarn -v
-    - yarn vue-tsc --noEmit || true
-    - yarn tsc --noEmit --extendedDiagnostics || true
-    - yarn vite build --debug
+    - |
+      set -e
+      yarn vue-tsc --noEmit || (echo "vue-tsc failed" && exit 1)
+      yarn tsc --noEmit --extendedDiagnostics || (echo "tsc failed" && exit 1)
+      yarn vite build --debug || (echo "vite build failed" && exit 1)
+  artifacts:
+    when: always
+    paths:
+      - dist/
+      - .yarn-cache/
+    expire_in: 1 week
 
 test:
   stage: test
