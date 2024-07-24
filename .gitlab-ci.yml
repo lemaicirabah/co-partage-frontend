@@ -2,6 +2,7 @@ image: node:18-buster
 
 stages:
   - build
+  - test
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -19,7 +20,17 @@ build:
   script:
     - node -v
     - yarn -v
-    - yarn list
     - yarn vue-tsc --noEmit || true
     - yarn tsc --noEmit --extendedDiagnostics || true
     - yarn vite build --debug
+
+test:
+  stage: test
+  script:
+    - yarn global add pm2
+    - pm2 start yarn --name "dev" -- run dev
+    - sleep 30 # Wait for the app to start
+    - curl -I http://localhost:3000 # Check if the app is running
+  after_script:
+    - pm2 stop all
+    - pm2 delete all
