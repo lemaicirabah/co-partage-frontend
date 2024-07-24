@@ -30,7 +30,7 @@ test:
     - yarn global add pm2
     - pm2 start yarn --name "dev" --interpreter bash -- run dev
     - sleep 30 # Wait for the app to start
-    - curl -I http://localhost:3000 # Check if the app is running
+    - curl -I http://localhost:3000 || (pm2 logs dev && exit 1) # Check if the app is running and output logs if it fails
   after_script:
     - pm2 stop all
     - pm2 delete all
