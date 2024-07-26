@@ -1,12 +1,10 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h1>Home</h1>
-        <p>Welcome to Co-Partage!</p>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-img
+    class="mx-auto"
+    height="100vh"
+    max-width="100vw"
+    src="../assets/Home.png" alt="Home Page">
+  </v-img>
 </template>
 
 <script setup>
