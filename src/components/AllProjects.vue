@@ -1,15 +1,6 @@
 <template>
   <div>
-    <h1>All Projects</h1>
-    <v-list>
-      <v-list-item
-        v-for="project in projects"
-        :key="project.id"
-        @click="goToProjectDetails(project.id)"
-      >
-        <v-list-item-title>{{ project.name }}</v-list-item-title>
-      </v-list-item>
-    </v-list>
+    <DataTable :projects="projects"/>
   </div>
 </template>
 
@@ -30,9 +21,6 @@ const fetchProjects = async () => {
   }
 };
 
-const goToProjectDetails = (id) => {
-  router.push(`/projects/details/${id}`);
-};
 
 onMounted(fetchProjects);
 </script>
