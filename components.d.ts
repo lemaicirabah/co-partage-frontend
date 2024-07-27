@@ -10,6 +10,7 @@ declare module 'vue' {
     AllEvaluations: typeof import('./src/components/AllEvaluations.vue')['default']
     AllProjects: typeof import('./src/components/AllProjects.vue')['default']
     AllUsers: typeof import('./src/components/AllUsers.vue')['default']
+    DataTable: typeof import('./src/components/DataTable.vue')['default']
     EvaluationDetails: typeof import('./src/components/EvaluationDetails.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
