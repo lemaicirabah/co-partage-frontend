@@ -28,8 +28,7 @@ const navLinks = computed(() => {
   switch (route.name) {
     case 'Projects':
       return [
-        { name: 'All Projects', path: '/projects/all' },
-        { name: 'Project Details', path: '/projects/details' },
+        { name: 'All Projects', path: '/projects/all' }
       ];
     case 'Users':
       return [
