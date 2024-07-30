@@ -29,7 +29,7 @@ const navLinks = computed(() => {
     case 'Projects':
       return [
         { name: 'All Projects', path: '/projects/all' },
-        { name: 'Project Details', path: '/projects/details' },
+        { name: 'Update Project', path: '/projects/update' }
       ];
     case 'Users':
       return [
