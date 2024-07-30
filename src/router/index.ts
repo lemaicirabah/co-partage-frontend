@@ -31,10 +31,11 @@ const routes = [
     path: "/users",
     name: "Users",
     component: Users,
-    children: [
-      { path: "all", name: "AllUsers", component: AllUsers },
-      { path: "specific/:id", name: "SpecificUser", component: SpecificUser },
-    ],
+  },
+  {
+    path: "/users/:id",
+    name: "SpecificUser",
+    component: SpecificUser,
   },
   {
     path: "/evaluations",
