@@ -1,38 +1,66 @@
 <template>
-  <div>
-    <h1>All Users</h1>
+  <v-container>
     <v-list>
       <v-list-item
         v-for="user in users"
         :key="user.id"
-        @click="goToUserDetails(user.id)"
+        @click="selectUser(user)"
+        class="user-item"
       >
-        <v-list-item-title>{{ user.name }}</v-list-item-title>
+        <v-list-item-content>
+          <v-list-item-title>{{ user.username }}</v-list-item-title>
+          <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+        </v-list-item-content>
       </v-list-item>
     </v-list>
-  </div>
+  </v-container>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import UserService from '@/services/UserService';
-import { useRouter } from 'vue-router';
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
 
-const users = ref([]);
-const router = useRouter();
+interface Skill {
+  id: number;
+  name: string;
+  description: string;
+}
 
-const fetchUsers = async () => {
-  try {
-    const response = await UserService.getAllUsers();
-    users.value = response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+interface Profile {
+  id: number;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  skills: Skill[];
+}
 
-const goToUserDetails = (id) => {
-  router.push(`/users/specific/${id}`);
-};
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  profile: Profile;
+  projects: number[];
+}
 
-onMounted(fetchUsers);
+export default defineComponent({
+  name: 'AllUsers',
+  props: {
+    users: {
+      type: Array as PropType<User[]>,
+      required: true,
+    },
+  },
+  methods: {
+    selectUser(user: User) {
+      console.log('User selected in AllUsers:', user); // Debug statement
+      this.$emit('selectUser', user);
+    },
+  },
+});
 </script>
+
+<style scoped>
+.user-item {
+  cursor: pointer;
+}
+</style>
