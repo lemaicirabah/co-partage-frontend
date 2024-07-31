@@ -18,7 +18,7 @@
           </v-card-title>
           <v-card-subtitle>{{ user.email }}</v-card-subtitle>
           <v-card-actions>
-            <v-btn text @click.stop="selectUser(user)">View Profile</v-btn>
+            <v-btn variant="text" @click.stop="selectUser(user)">View Profile</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
