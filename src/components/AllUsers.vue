@@ -9,16 +9,16 @@
         sm="6"
         md="4"
       >
-        <v-card @click="selectUser(user)" class="user-card">
+        <v-card class="user-card" color="grey-lighten-4">
           <v-card-title>
             <v-avatar left>
-              <v-img :src="user.profile.avatar || 'default-avatar.png'"></v-img>
+              <span class="user-avatar">{{ user.id }}</span>
             </v-avatar>
             <span class="ml-3">{{ user.username }}</span>
           </v-card-title>
           <v-card-subtitle>{{ user.email }}</v-card-subtitle>
           <v-card-actions>
-            <v-btn variant="text" @click.stop="selectUser(user)">View Profile</v-btn>
+            <v-btn variant="outlined" color="primary" @click.stop="selectUser(user)">View Profile</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -63,7 +63,6 @@ export default defineComponent({
   },
   methods: {
     selectUser(user: User) {
-      console.log('User selected in AllUsers:', user); // Debug statement
       this.$emit('selectUser', user);
     },
   },
