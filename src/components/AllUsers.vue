@@ -1,18 +1,28 @@
 <template>
   <v-container>
-    <v-list>
-      <v-list-item
+    <h1 class="my-4">All Users</h1>
+    <v-row>
+      <v-col
         v-for="user in users"
         :key="user.id"
-        @click="selectUser(user)"
-        class="user-item"
+        cols="12"
+        sm="6"
+        md="4"
       >
-        <v-list-item-content>
-          <v-list-item-title>{{ user.username }}</v-list-item-title>
-          <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+        <v-card @click="selectUser(user)" class="user-card">
+          <v-card-title>
+            <v-avatar left>
+              <v-img :src="user.profile.avatar || 'default-avatar.png'"></v-img>
+            </v-avatar>
+            <span class="ml-3">{{ user.username }}</span>
+          </v-card-title>
+          <v-card-subtitle>{{ user.email }}</v-card-subtitle>
+          <v-card-actions>
+            <v-btn text @click.stop="selectUser(user)">View Profile</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -31,6 +41,7 @@ interface Profile {
   lastName: string;
   bio: string;
   skills: Skill[];
+  avatar?: string;
 }
 
 interface User {
@@ -60,7 +71,21 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.user-item {
+.user-card {
+  transition: transform 0.3s;
   cursor: pointer;
+}
+
+.user-card:hover {
+  transform: scale(1.05);
+}
+
+.v-card-title {
+  display: flex;
+  align-items: center;
+}
+
+.v-card-actions {
+  justify-content: flex-end;
 }
 </style>
