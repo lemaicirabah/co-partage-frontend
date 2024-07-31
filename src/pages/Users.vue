@@ -13,8 +13,8 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import AllUsers from '../components/AllUsers.vue';
-import UserService from '../services/UserService';
+import AllUsers from '@/components/AllUsers.vue';
+import UserService from '@/services/UserService';
 
 interface Skill {
   id: number;
@@ -59,7 +59,6 @@ export default defineComponent({
     };
 
     const selectUser = (user: User) => {
-      console.log('Selected User:', user); // Debug statement
       router.push({ name: 'SpecificUser', params: { id: user.id } });
     };
 
