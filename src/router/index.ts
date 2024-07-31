@@ -31,11 +31,11 @@ const routes = [
     path: "/users",
     name: "Users",
     component: Users,
-  },
-  {
-    path: "/users/:id",
-    name: "SpecificUser",
-    component: SpecificUser,
+    redirect: "/users/all", // Redirect to All Users by default
+    children: [
+      { path: "all", name: "AllUsers", component: AllUsers },
+      { path: "specific/:id", name: "SpecificUser", component: SpecificUser },
+    ],
   },
   {
     path: "/evaluations",
