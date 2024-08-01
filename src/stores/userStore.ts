@@ -1,3 +1,4 @@
+// src/stores/userStore.ts
 import { defineStore } from "pinia";
 
 interface Skill {
