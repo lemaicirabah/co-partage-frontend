@@ -1,3 +1,4 @@
+<!-- src/pages/Login.vue -->
 <template>
   <v-container>
     <v-row justify="center">
@@ -30,15 +31,18 @@
 import { ref } from 'vue';
 import UserService from '@/services/UserService';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/userStore';
 
 const username = ref('');
 const successMessage = ref('');
 const errorMessage = ref('');
 const router = useRouter();
+const userStore = useUserStore();
 
 const login = async () => {
   try {
     const response = await UserService.login(username.value);
+    userStore.setUser(response.data); // Set the user in the Pinia store
     successMessage.value = 'Login successful! Redirecting...';
     errorMessage.value = '';
     setTimeout(() => {
