@@ -7,19 +7,18 @@
           <v-card-text>
             <v-form @submit.prevent="login">
               <v-text-field
-                v-model="email"
-                label="Email"
-                type="email"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="password"
-                label="Password"
-                type="password"
+                v-model="username"
+                label="Username"
                 required
               ></v-text-field>
               <v-btn type="submit" color="primary">Login</v-btn>
             </v-form>
+            <v-alert v-if="successMessage" type="success" dismissible>
+              {{ successMessage }}
+            </v-alert>
+            <v-alert v-if="errorMessage" type="error" dismissible>
+              {{ errorMessage }}
+            </v-alert>
           </v-card-text>
         </v-card>
       </v-col>
@@ -29,20 +28,26 @@
 
 <script setup>
 import { ref } from 'vue';
-import axios from '@/plugins/axios';
+import UserService from '@/services/UserService';
 import { useRouter } from 'vue-router';
 
-const email = ref('');
-const password = ref('');
+const username = ref('');
+const successMessage = ref('');
+const errorMessage = ref('');
 const router = useRouter();
 
 const login = async () => {
   try {
-    const response = await axios.post('/auth/login', { email: email.value, password: password.value });
-    localStorage.setItem('token', response.data.token);
-    router.push('/');
+    const response = await UserService.login(username.value);
+    successMessage.value = 'Login successful! Redirecting...';
+    errorMessage.value = '';
+    setTimeout(() => {
+      router.push('/dashboard'); // Adjust the path as needed
+    }, 2000);
   } catch (error) {
-    console.error('Error logging in:', error);
+    console.error('Error logging in:', error.response || error);
+    successMessage.value = '';
+    errorMessage.value = 'Error logging in: ' + (error.response?.data?.message || error.message);
   }
 };
 </script>
