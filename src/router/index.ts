@@ -8,7 +8,7 @@ import Register from "@/pages/Register.vue";
 import AllProjects from "@/components/AllProjects.vue";
 import ProjectDetails from "@/components/ProjectDetails.vue";
 import AllUsers from "@/components/AllUsers.vue";
-import SpecificUser from "@/components/SpecificUser.vue";
+import UserDetails from "@/components/UserDetails.vue";
 import AllEvaluations from "@/components/AllEvaluations.vue";
 import EvaluationDetails from "@/components/EvaluationDetails.vue";
 
@@ -34,7 +34,7 @@ const routes = [
     redirect: "/users/all", // Redirect to All Users by default
     children: [
       { path: "all", name: "AllUsers", component: AllUsers },
-      { path: "specific/:id", name: "SpecificUser", component: SpecificUser },
+      { path: "details/:id", name: "UserDetails", component: UserDetails },
     ],
   },
   {
