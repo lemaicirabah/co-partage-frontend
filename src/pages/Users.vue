@@ -5,8 +5,8 @@
         <SideNav />
       </v-col>
       <v-col cols="10">
-        <div v-if="selectedUser">
-          <UserDetails :user="selectedUser" @back="selectedUser = null" />
+        <div v-if="selectedUserId !== null">
+          <UserDetails :userId="selectedUserId" @back="selectedUserId = null" />
         </div>
         <div v-else>
           <AllUsers :users="users" @selectUser="selectUser" />
@@ -17,12 +17,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import SideNav from '@/components/SideNav.vue';
-import AllUsers from '@/components/AllUsers.vue';
-import UserDetails from '@/components/UserDetails.vue';
-import UserService from '@/services/UserService';
+import { defineComponent, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import SideNav from "@/components/SideNav.vue";
+import AllUsers from "@/components/AllUsers.vue";
+import UserDetails from "@/components/UserDetails.vue";
+import UserService from "@/services/UserService";
 
 interface Skill {
   id: number;
@@ -48,7 +48,7 @@ interface User {
 }
 
 export default defineComponent({
-  name: 'Users',
+  name: "Users",
   components: {
     SideNav,
     AllUsers,
@@ -56,7 +56,7 @@ export default defineComponent({
   },
   setup() {
     const users = ref<User[]>([]);
-    const selectedUser = ref<User | null>(null);
+    const selectedUserId = ref<number | null>(null);
     const router = useRouter();
 
     const fetchUsers = async () => {
@@ -64,21 +64,21 @@ export default defineComponent({
         const response = await UserService.getAllUsers();
         users.value = response.data;
       } catch (error) {
-        console.error('There was an error fetching the users!', error);
+        console.error("There was an error fetching the users!", error);
       }
     };
 
     const selectUser = (user: User) => {
-      console.log('selectUser in Users.vue called with:', user);
-      selectedUser.value = user;
-      router.push({ name: 'UserDetails', params: { id: user.id.toString() } });
+      console.log("selectUser in Users.vue called with:", user);
+      selectedUserId.value = user.id;
+      router.push({ name: "UserDetails", params: { id: user.id.toString() } });
     };
 
     onMounted(fetchUsers);
 
     return {
       users,
-      selectedUser,
+      selectedUserId,
       selectUser,
     };
   },
