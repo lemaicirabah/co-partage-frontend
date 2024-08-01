@@ -2,10 +2,7 @@
   <div>
     <h1>All Projects</h1>
     <v-expansion-panels v-model="panel" multiple>
-      <v-expansion-panel
-        v-for="(project, index) in projects"
-        :key="project.id"
-      >
+      <v-expansion-panel v-for="project in projects" :key="project.id">
         <v-expansion-panel-header>
           <v-list-item>
             <v-list-item-content>
@@ -19,7 +16,9 @@
           <v-list-item @click="goToProjectDetails(project.id)">
             <v-list-item-content>
               <v-list-item-title>{{ project.title }}</v-list-item-title>
-              <v-list-item-subtitle>{{ project.description }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{
+                project.description
+              }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-expansion-panel-content>
@@ -29,9 +28,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import ProjectService from '@/services/ProjectService';
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import ProjectService from "@/services/ProjectService";
 
 const projects = ref([]);
 const router = useRouter();
@@ -48,10 +47,10 @@ const fetchProjects = async () => {
 
 const goToProjectDetails = (id) => {
   if (!id) {
-    console.error('Project ID is undefined');
+    console.error("Project ID is undefined");
     return;
   }
-  router.push({ name: 'ProjectDetails', params: { id } });
+  router.push({ name: "ProjectDetails", params: { id } });
 };
 
 onMounted(fetchProjects);
