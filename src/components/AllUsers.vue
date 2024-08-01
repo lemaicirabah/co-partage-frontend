@@ -9,9 +9,9 @@
         sm="6"
         md="4"
       >
-        <v-card class="user-card" color="grey-lighten-4">
+        <v-card class="user-card" color="grey-lighten-3">
           <v-card-title>
-            <v-avatar left>
+            <v-avatar left color="primary">
               <span class="user-avatar">{{ user.id }}</span>
             </v-avatar>
             <span class="ml-3">{{ user.username }}</span>
@@ -63,6 +63,7 @@ export default defineComponent({
   },
   methods: {
     selectUser(user: User) {
+      console.log('selectUser called with:', user);
       this.$emit('selectUser', user);
     },
   },
