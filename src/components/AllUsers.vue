@@ -2,13 +2,7 @@
   <v-container>
     <h1 class="my-4">All Users</h1>
     <v-row>
-      <v-col
-        v-for="user in users"
-        :key="user.id"
-        cols="12"
-        sm="6"
-        md="4"
-      >
+      <v-col v-for="user in users" :key="user.id" cols="12" sm="6" md="4">
         <v-card class="user-card" color="grey-lighten-3">
           <v-card-title>
             <v-avatar left color="primary">
@@ -18,7 +12,12 @@
           </v-card-title>
           <v-card-subtitle>{{ user.email }}</v-card-subtitle>
           <v-card-actions>
-            <v-btn variant="outlined" color="primary" @click.stop="selectUser(user)">View Profile</v-btn>
+            <v-btn
+              variant="outlined"
+              color="primary"
+              @click.stop="selectUser(user)"
+              >View Profile</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -27,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from "vue";
 
 interface Skill {
   id: number;
@@ -54,7 +53,7 @@ interface User {
 }
 
 export default defineComponent({
-  name: 'AllUsers',
+  name: "AllUsers",
   props: {
     users: {
       type: Array as PropType<User[]>,
@@ -63,8 +62,8 @@ export default defineComponent({
   },
   methods: {
     selectUser(user: User) {
-      console.log('selectUser called with:', user);
-      this.$emit('selectUser', user);
+      console.log("selectUser called with:", user);
+      this.$emit("selectUser", user);
     },
   },
 });
