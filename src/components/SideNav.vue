@@ -1,16 +1,16 @@
 <template>
-  <v-navigation-drawer app permanent>
+  <v-navigation-drawer app permanent color="grey-lighten-4">
     <v-list>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="title">{{ currentSection }} Navigation</v-list-item-title>
+          <v-list-item-title class="title">{{ navTitle }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
       <v-list-item
         v-for="link in navLinks"
         :key="link.path"
-        :to="link.path"
+        @click="navigate(link.path)"
       >
         <v-list-item-title>{{ link.name }}</v-list-item-title>
       </v-list-item>
@@ -18,35 +18,62 @@
   </v-navigation-drawer>
 </template>
 
-<script setup>
+<script>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-const route = useRoute();
+export default {
+  name: 'SideNav',
+  setup() {
+    const router = useRouter();
+    const route = useRoute();
 
-const navLinks = computed(() => {
-  switch (route.name) {
-    case 'Projects':
-      return [
-        { name: 'All Projects', path: '/projects/all' },
-        { name: 'Project Details', path: '/projects/details' },
-      ];
-    case 'Users':
-      return [
-        { name: 'All Users', path: '/users/all' },
-        { name: 'Specific User', path: '/users/specific' },
-      ];
-    case 'Evaluations':
-      return [
-        { name: 'All Evaluations', path: '/evaluations/all' },
-        { name: 'Evaluation Details', path: '/evaluations/details' },
-      ];
-    default:
-      return [];
-  }
-});
+    const navLinks = computed(() => {
+      switch (route.name) {
+        case 'Projects':
+          return [
+            { name: 'All Projects', path: '/projects/all' },
+            // Add more project-specific links here
+          ];
+        case 'Users':
+          return [
+            { name: 'All Users', path: '/users/all' },
+            // Add more user-specific links here
+          ];
+        case 'Evaluations':
+          return [
+            { name: 'All Evaluations', path: '/evaluations/all' },
+            // Add more evaluation-specific links here
+          ];
+        default:
+          return [];
+      }
+    });
 
-const currentSection = computed(() => route.name);
+    const navTitle = computed(() => {
+      switch (route.name) {
+        case 'Projects':
+          return 'Projects Navigation';
+        case 'Users':
+          return 'Users Navigation';
+        case 'Evaluations':
+          return 'Evaluations Navigation';
+        default:
+          return 'Navigation';
+      }
+    });
+
+    const navigate = (path) => {
+      router.push(path);
+    };
+
+    return {
+      navLinks,
+      navTitle,
+      navigate,
+    };
+  },
+};
 </script>
 
 <style scoped>
