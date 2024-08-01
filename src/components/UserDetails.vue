@@ -15,20 +15,21 @@
             >
               <v-list-item-content>
                 <v-list-item-title>{{ skill.name }}</v-list-item-title>
-                <v-list-item-subtitle>{{ skill.description }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{
+                  skill.description
+                }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
         </v-list>
         <p><strong>Projects:</strong></p>
         <v-list>
-          <v-list-item
-            v-for="(project, index) in projects"
-            :key="index"
-          >
+          <v-list-item v-for="(project, index) in projects" :key="index">
             <v-list-item-content>
               <v-list-item-title>{{ project.title }}</v-list-item-title>
-              <v-list-item-subtitle>{{ project.description }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{
+                project.description
+              }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -39,10 +40,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import UserService from '@/services/UserService';
-import ProjectService from '@/services/ProjectService';
+import { defineComponent, ref, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
+import UserService from "@/services/UserService";
+import ProjectService from "@/services/ProjectService";
 
 interface Skill {
   id: number;
@@ -74,17 +75,23 @@ interface User {
 }
 
 export default defineComponent({
-  name: 'UserDetails',
-  setup() {
+  name: "UserDetails",
+  props: {
+    userId: {
+      type: Number,
+      required: true,
+    },
+  },
+  setup(props) {
     const route = useRoute();
     const user = ref<User | null>(null);
     const projects = ref<Project[]>([]);
 
-    const fetchUser = async () => {
-      console.log('Route params:', route.params); // Debugging line
+    const fetchUser = async (userId: number) => {
+      console.log("Route params:", route.params); // Debugging line
       try {
-        const response = await UserService.getUserById(Number(route.params.id));
-        console.log('Fetched user data:', response.data); // Debugging line
+        const response = await UserService.getUserById(userId);
+        console.log("Fetched user data:", response.data); // Debugging line
         user.value = response.data;
 
         // Fetch project details for each project ID
@@ -95,11 +102,15 @@ export default defineComponent({
           projects.value = await Promise.all(projectPromises);
         }
       } catch (error) {
-        console.error('There was an error fetching the user details!', error);
+        console.error("There was an error fetching the user details!", error);
       }
     };
 
-    onMounted(fetchUser);
+    onMounted(() => fetchUser(props.userId));
+    watch(
+      () => props.userId,
+      (newUserId) => fetchUser(newUserId)
+    );
 
     return {
       user,
