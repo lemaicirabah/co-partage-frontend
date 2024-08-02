@@ -5,7 +5,7 @@ import Users from "@/pages/Users.vue";
 import Evaluations from "@/pages/Evaluations.vue";
 import Login from "@/pages/Login.vue";
 import Register from "@/pages/Register.vue";
-import AllProjects from "@/components/AllProjects.vue";
+import AddProject from "@/components/AddProject.vue";
 import ProjectDetails from "@/components/ProjectDetails.vue";
 import UpdateProject from "@/components/UpdateProject.vue";
 import ProjectTasks from "@/components/ProjectTasks.vue";
@@ -16,7 +16,6 @@ import EditTask from "@/components/EditTask.vue";
 import AllUsers from "@/components/AllUsers.vue";
 import UserDetails from "@/components/UserDetails.vue";
 import AllEvaluations from "@/components/AllEvaluations.vue";
-import EvaluationDetails from "@/components/EvaluationDetails.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 
 const routes = [
@@ -26,24 +25,49 @@ const routes = [
     name: "Projects",
     component: Projects,
     children: [
-      { path: "all", name: "AllProjects", component: AllProjects },
       {
         path: "details/:id",
         name: "ProjectDetails",
         component: ProjectDetails,
       },
-      { path: "update", name: "UpdateProject", component: UpdateProject },
-      { path: ":id/tasks", name: "ProjectTasks", component: ProjectTasks },
+      {
+        path: "update/:id",
+        name: "UpdateProjects",
+        component: UpdateProject,
+      },
+      {
+        path: ":id/tasks",
+        name: "ProjectTasks",
+        component: ProjectTasks,
+      },
       {
         path: ":id/members",
         name: "ProjectMembers",
         component: ProjectMembers,
       },
-      { path: ":id/tasks/new", name: "AddTask", component: AddTask },
-      { path: ":id/tasks/:taskId/edit", name: "EditTask", component: EditTask },
-      { path: ":id/members/add", name: "AddMember", component: AddMember },
-    ],
+      {
+        path: ":id/tasks/new",
+        name: "AddTask",
+        component: AddTask,
+      },
+      {
+        path: ":id/tasks/:taskId/edit",
+        name: "EditTask",
+        component: EditTask,
+      },
+      {
+        path: ":id/members/add",
+        name: "AddMember",
+        component: AddMember,
+      },
+    ]
   },
+  {
+    path: "/projects/add",
+    name: "AddProject",
+    component: AddProject,
+  },
+  
   {
     path: "/users",
     name: "Users",
@@ -60,11 +84,6 @@ const routes = [
     component: Evaluations,
     children: [
       { path: "all", name: "AllEvaluations", component: AllEvaluations },
-      {
-        path: "details/:id",
-        name: "EvaluationDetails",
-        component: EvaluationDetails,
-      },
     ],
   },
   { path: "/login", name: "Login", component: Login },
