@@ -32,8 +32,7 @@ export default {
       switch (route.name) {
         case 'Projects':
           return [
-            { name: 'All Projects', path: '/projects/all' },
-            { name: 'Update Project', path: '/projects/update' }
+           
             // Add more project-specific links here
           ];
         case 'Users':
@@ -43,8 +42,6 @@ export default {
           ];
         case 'Evaluations':
           return [
-            { name: 'All Evaluations', path: '/evaluations/all' },
-            { name: 'Evaluation Details', path: '/evaluations/details' },
             // Add more evaluation-specific links here
           ];
         default:
