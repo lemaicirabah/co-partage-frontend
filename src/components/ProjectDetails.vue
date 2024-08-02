@@ -18,19 +18,26 @@
                     <p>{{ project.description }}</p>
                   </v-col>
                   <v-col cols="12">
-                    <h3>Creator ID:</h3>
-                    <p>{{ project.creator }}</p>
+                    <h3>Creator:</h3>
+                    <p>{{ creator ? creator.username : 'Loading...' }}</p>
                   </v-col>
                   <v-col cols="12">
                     <h3>Members:</h3>
                     <v-chip-group>
                       <v-chip 
-                        v-for="member in project.members" 
-                        :key="member" 
+                        v-for="member in members" 
+                        :key="member.id" 
                         color="blue" 
                         dark
                       >
-                        Member ID: {{ member }}
+                        {{ member.username }}
+                      </v-chip>
+                      <v-chip 
+                        v-if="missingMembers.length > 0"
+                        color="red"
+                        dark
+                      >
+                        {{ missingMembers.length }} members not found
                       </v-chip>
                     </v-chip-group>
                   </v-col>
@@ -76,14 +83,16 @@
     </v-row>
   </v-container>
 </template>
-
-
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ProjectService from '@/services/ProjectService';
+import UserService from '@/services/UserService';
 
 const project = ref(null);
+const creator = ref(null);
+const members = ref([]);
+const missingMembers = ref([]);
 const route = useRoute();
 const router = useRouter();
 
@@ -96,14 +105,41 @@ const fetchProjectDetails = async () => {
   try {
     const response = await ProjectService.getProjectDetails(route.params.id);
     project.value = response.data;
+
+    // Fetch creator details
+    try {
+      const creatorResponse = await UserService.getUserById(project.value.creator);
+      creator.value = creatorResponse.data;
+    } catch (error) {
+      console.error(`Failed to fetch creator details for ID ${project.value.creator}:`, error);
+    }
+
+    // Fetch member details
+    const memberPromises = project.value.members.map(async (memberId) => {
+      try {
+        const memberResponse = await UserService.getUserById(memberId);
+        return memberResponse.data;
+      } catch (error) {
+        console.error(`Failed to fetch member details for ID ${memberId}:`, error);
+        missingMembers.value.push(memberId);
+        return null;
+      }
+    });
+    const memberResponses = await Promise.all(memberPromises);
+    members.value = memberResponses.filter(member => member !== null);
+
   } catch (error) {
     console.error("Failed to fetch project details:", error);
   }
 };
 
 const goBack = () => {
-  router.back();
+  router.push({ name: 'Projects' });
 };
 
 onMounted(fetchProjectDetails);
+watch(
+  () => route.params.id,
+  (newId) => fetchProjectDetails()
+);
 </script>
