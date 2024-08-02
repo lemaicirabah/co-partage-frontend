@@ -23,6 +23,7 @@
                   label="Assignee ID"
                   :rules="[rules.required]"
                   required
+                  readonly
                 ></v-text-field>
                 <v-select
                   v-model="task.status"
