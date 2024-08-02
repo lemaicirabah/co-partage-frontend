@@ -13,6 +13,10 @@ export default {
   updateProject(id: string, projectData: string) {
     return axios.put(`co-partage/projects/${id}`, projectData);
   },
+  
+  deleteProject(id: string) {
+    return axios.delete(`co-partage/projects/${id}`);
+  },
   goToTasks(projectId: string) {
     return axios.post(`co-partage/projects/${projectId}/tasks`);
   },
