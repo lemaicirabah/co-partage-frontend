@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <SideNav />
     <v-main>
       <v-container>
         <v-row>
@@ -20,7 +19,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import SideNav from '@/components/SideNav.vue';
 import EvaluationService from '@/services/EvaluationService';
 
 const evaluations = ref([]);

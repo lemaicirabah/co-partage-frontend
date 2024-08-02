@@ -28,11 +28,15 @@ class UserService {
   }
 
   login(username: string) {
-    return axios.post(`${API_URL}/login`, username, {
-      headers: {
-        'Content-Type': 'text/plain'
+    return axios.post(
+      `${API_URL}/login`,
+      { username },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
   }
 }
 

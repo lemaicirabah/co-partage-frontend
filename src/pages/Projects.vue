@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <SideNav />
     <v-main>
       <div v-if="selectedProjectId !== null">
         <ProjectDetails :projectId="selectedProjectId" @back="selectedProjectId = null" />
@@ -44,7 +43,6 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import SideNav from '@/components/SideNav.vue';
 import ProjectDetails from '@/components/ProjectDetails.vue';
 import ProjectService from '@/services/ProjectService';
 
@@ -57,7 +55,6 @@ interface Project {
 export default defineComponent({
   name: 'Projects',
   components: {
-    SideNav,
     ProjectDetails,
   },
   setup() {

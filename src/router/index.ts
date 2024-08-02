@@ -17,6 +17,7 @@ import AllUsers from "@/components/AllUsers.vue";
 import UserDetails from "@/components/UserDetails.vue";
 import AllEvaluations from "@/components/AllEvaluations.vue";
 import Dashboard from "@/pages/Dashboard.vue";
+import { useUserStore } from "@/stores/userStore";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -24,48 +25,46 @@ const routes = [
     path: "/projects",
     name: "Projects",
     component: Projects,
-    children: [
-      {
-        path: "details/:id",
-        name: "ProjectDetails",
-        component: ProjectDetails,
-      },
-      {
-        path: "update/:id",
-        name: "UpdateProjects",
-        component: UpdateProject,
-      },
-      {
-        path: ":id/tasks",
-        name: "ProjectTasks",
-        component: ProjectTasks,
-      },
-      {
-        path: ":id/members",
-        name: "ProjectMembers",
-        component: ProjectMembers,
-      },
-      {
-        path: ":id/tasks/new",
-        name: "AddTask",
-        component: AddTask,
-      },
-      {
-        path: ":id/tasks/:taskId/edit",
-        name: "EditTask",
-        component: EditTask,
-      },
-      {
-        path: ":id/members/add",
-        name: "AddMember",
-        component: AddMember,
-      },
-    ]
   },
   {
     path: "/projects/add",
     name: "AddProject",
     component: AddProject,
+  },
+  {
+    path: "/projects/details/:id",
+    name: "ProjectDetails",
+    component: ProjectDetails,
+  },
+  {
+    path: "/projects/update/:id",
+    name: "UpdateProjects",
+    component: UpdateProject,
+  },
+  {
+    path: "/projects/:id/tasks",
+    name: "ProjectTasks",
+    component: ProjectTasks,
+  },
+  {
+    path: "/projects/:id/tasks/new",
+    name: "AddTask",
+    component: AddTask,
+  },
+  {
+    path: "/projects/:id/tasks/:taskId/edit",
+    name: "EditTask",
+    component: EditTask,
+  },
+  {
+    path: "/projects/:id/members",
+    name: "ProjectMembers",
+    component: ProjectMembers,
+  },
+  {
+    path: "/projects/:id/members/add",
+    name: "AddMember",
+    component: AddMember,
   },
   
   {
@@ -81,19 +80,32 @@ const routes = [
   {
     path: "/evaluations",
     name: "Evaluations",
-    component: Evaluations,
-    children: [
-      { path: "all", name: "AllEvaluations", component: AllEvaluations },
-    ],
+    component: Evaluations
   },
   { path: "/login", name: "Login", component: Login },
   { path: "/register", name: "Register", component: Register },
-  { path: "/dashboard", name: "Dashboard", component: Dashboard },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  if (to.matched.some(record => record.meta.requiresAuth) && !userStore.isLoggedIn) {
+    next({ name: 'Login' });
+  } else if (to.name === 'Login' && userStore.isLoggedIn) {
+    next({ name: 'Dashboard' });
+  } else {
+    next();
+  }
 });
 
 export default router;

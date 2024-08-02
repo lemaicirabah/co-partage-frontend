@@ -2,7 +2,10 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1>Dashboard</h1>
+        <v-row justify="space-between" align="center">
+          <h1>Dashboard</h1>
+          <v-btn color="red" @click="logout">Logout</v-btn>
+        </v-row>
         <v-card v-if="user">
           <v-card-title>Welcome, {{ user.username }}</v-card-title>
           <v-card-text>
@@ -170,6 +173,11 @@ const deleteProject = async (projectId) => {
 
 const closeDialog = () => {
   dialog.value = false;
+};
+
+const logout = () => {
+  userStore.logout();
+  router.push({ name: 'Login' });
 };
 
 onMounted(fetchProjectsAndTasks);

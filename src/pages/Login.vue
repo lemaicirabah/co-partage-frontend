@@ -1,4 +1,3 @@
-<!-- src/pages/Login.vue -->
 <template>
   <v-container>
     <v-row justify="center">
@@ -46,7 +45,7 @@ const login = async () => {
     successMessage.value = 'Login successful! Redirecting...';
     errorMessage.value = '';
     setTimeout(() => {
-      router.push('/dashboard'); // Adjust the path as needed
+      router.push({ name: 'Dashboard' }); // Adjust the path as needed
     }, 2000);
   } catch (error) {
     console.error('Error logging in:', error.response || error);
@@ -57,7 +56,7 @@ const login = async () => {
 </script>
 
 <style scoped>
-v-container {
+.v-container {
   margin-top: 20px;
 }
 </style>
