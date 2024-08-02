@@ -23,8 +23,20 @@ class UserService {
     return axios.delete(`${API_URL}/${id}`);
   }
 
+  createProject(userId:number, projectData:string) {
+    return axios.post(`http://localhost:8080/co-partage/projects/users/${userId}`, projectData);
+  }
+
   login(username: string) {
-    return axios.post(`${API_URL}/login`, { username });
+    return axios.post(
+      `${API_URL}/login`,
+      { username },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 }
 

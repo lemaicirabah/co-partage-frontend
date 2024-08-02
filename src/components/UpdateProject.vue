@@ -11,7 +11,7 @@
                 label="Project ID"
                 :rules="[rules.required]"
                 required
-                @input="checkID" 
+                readonly
               ></v-text-field>
               <v-text-field
                 v-model="project.title"
@@ -24,6 +24,7 @@
                 label="Creator ID"
                 :rules="[rules.required]"
                 required
+                readonly
               ></v-text-field>
               <v-textarea
                 v-model="project.description"
@@ -41,21 +42,13 @@
             </v-form>
           </v-card-text>
         </v-card>
-        
-        <!-- Search and Manage Buttons -->
-        <v-text-field
-          v-model="searchProjectId"
-          label="Enter Project ID for Management"
-          class="mt-4"
-        ></v-text-field>
-        
-        <v-row>
+
+        <v-row class="mt-4">
           <v-col>
             <v-btn
               color="primary"
-              :disabled="!isSearchIDFilled"
-              class="mt-3 mr-2"
-              @click="goToTasks(searchProjectId)"
+              @click="goToTasks"
+              class="mr-2"
             >
               <v-icon left>mdi-format-list-bulleted</v-icon>
               Manage Tasks
@@ -64,9 +57,7 @@
           <v-col>
             <v-btn
               color="primary"
-              :disabled="!isSearchIDFilled"
-              class="mt-3"
-              @click="goToMembers(searchProjectId)"
+              @click="goToMembers"
             >
               <v-icon left>mdi-account-group</v-icon>
               Manage Members
@@ -79,11 +70,12 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import ProjectService from '@/services/ProjectService';
 
 const router = useRouter();
+const route = useRoute();
 const project = ref({
   id: '',
   title: '',
@@ -92,41 +84,50 @@ const project = ref({
 });
 const form = ref(null);
 const valid = ref(false);
-const isIDFilled = ref(false);  // To track if the Project ID is filled
-
-const searchProjectId = ref('');
-const isSearchIDFilled = ref(false); // To track if the search Project ID is filled
 
 const rules = {
   required: value => !!value || 'Required.',
+};
+
+const fetchProject = async (id) => {
+  try {
+    const response = await ProjectService.getProjectById(id);
+    project.value = response.data;
+  } catch (error) {
+    console.error('Failed to fetch project:', error);
+  }
 };
 
 const updateProject = async () => {
   if (form.value.validate()) {
     try {
       await ProjectService.updateProject(project.value.id, project.value);
-      router.push({ name: 'AllProjects' });  // Navigate back to the project list after update
+      router.push({ name: 'Projects' });
     } catch (error) {
       console.error('Failed to update project:', error);
     }
   }
 };
 
-const goToTasks = (projectId) => {
-  router.push({ name: 'ProjectTasks', params: { id: projectId } });
+const goToTasks = () => {
+  router.push({ name: 'ProjectTasks', params: { id: project.value.id } });
 };
 
-const goToMembers = (projectId) => {
-  router.push({ name: 'ProjectMembers', params: { id: projectId } });
+const goToMembers = () => {
+  router.push({ name: 'ProjectMembers', params: { id: project.value.id } });
 };
 
-// Watcher to enable/disable manage buttons based on search Project ID input
-watch(() => searchProjectId.value, (newID) => {
-  isSearchIDFilled.value = !!newID;
+onMounted(() => {
+  fetchProject(route.params.id);
 });
 
-// Watcher to enable/disable manage buttons based on Project ID input
-watch(() => project.value.id, (newID) => {
-  isIDFilled.value = !!newID;
+watch(() => route.params.id, (newId) => {
+  fetchProject(newId);
 });
 </script>
+
+<style scoped>
+.v-container {
+  margin-top: 20px;
+}
+</style>

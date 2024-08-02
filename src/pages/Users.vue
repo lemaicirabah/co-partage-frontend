@@ -2,7 +2,6 @@
   <v-container>
     <v-row>
       <v-col cols="2">
-        <SideNav />
       </v-col>
       <v-col cols="10">
         <div v-if="selectedUserId !== null">
@@ -19,7 +18,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import SideNav from "@/components/SideNav.vue";
 import AllUsers from "@/components/AllUsers.vue";
 import UserDetails from "@/components/UserDetails.vue";
 import UserService from "@/services/UserService";
@@ -50,7 +48,6 @@ interface User {
 export default defineComponent({
   name: "Users",
   components: {
-    SideNav,
     AllUsers,
     UserDetails,
   },

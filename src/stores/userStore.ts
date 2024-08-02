@@ -1,4 +1,3 @@
-// src/stores/userStore.ts
 import { defineStore } from "pinia";
 
 interface Skill {
@@ -27,6 +26,9 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     user: null as User | null,
   }),
+  getters: {
+    isLoggedIn: (state) => state.user !== null,
+  },
   actions: {
     setUser(user: User) {
       this.user = user;
