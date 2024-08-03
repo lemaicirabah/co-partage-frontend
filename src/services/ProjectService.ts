@@ -13,7 +13,9 @@ export default {
   updateProject(id: string, projectData: string) {
     return axios.put(`co-partage/projects/${id}`, projectData);
   },
-  
+  createProject(userId:number, projectData:string) {
+    return axios.post(`co-partage/projects/users/${userId}`, projectData);
+  },
   deleteProject(id: string) {
     return axios.delete(`co-partage/projects/${id}`);
   },
