@@ -108,6 +108,7 @@ import ProjectService from "@/services/ProjectService";
 const router = useRouter();
 const userStore = useUserStore();
 const user = ref(userStore.user);
+const userId = user.value.id;
 const projects = ref([]);
 const upcomingTasks = ref([]);
 const dialog = ref(false);
@@ -124,8 +125,11 @@ const rules = {
 };
 
 const fetchProjectsAndTasks = async () => {
-  if (user.value) {
-    const projectPromises = user.value.projects.map((projectId) =>
+  const updatedUser = await UserService.getUserById(userId);
+
+  if (updatedUser.data) {
+
+    const projectPromises = updatedUser.data.projects.map((projectId) =>
       ProjectService.getProjectById(projectId).then((res) => res.data)
     );
     projects.value = await Promise.all(projectPromises);
@@ -133,10 +137,12 @@ const fetchProjectsAndTasks = async () => {
     // Extract and filter tasks assigned to the logged-in user
     const allTasks = projects.value.flatMap((project) => project.tasks);
     upcomingTasks.value = allTasks.filter(
-      (task) => task.assignee === user.value.id
+      (task) => task.assignee === updatedUser.data.id
     );
   }
 };
+
+
 
 const openCreateDialog = () => {
   router.push({ name: 'AddProject' });

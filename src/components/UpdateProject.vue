@@ -102,7 +102,7 @@ const updateProject = async () => {
   if (form.value.validate()) {
     try {
       await ProjectService.updateProject(project.value.id, project.value);
-      router.push({ name: 'Projects' });
+      router.push({ name: 'Dashboard' });
     } catch (error) {
       console.error('Failed to update project:', error);
     }
