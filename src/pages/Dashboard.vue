@@ -104,6 +104,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import ProjectService from "@/services/ProjectService";
+import UserService from "@/services/UserService";
 
 const router = useRouter();
 const userStore = useUserStore();
