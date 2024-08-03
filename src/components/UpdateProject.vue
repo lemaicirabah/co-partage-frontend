@@ -7,10 +7,24 @@
           <v-card-text>
             <v-form ref="form" v-model="valid" @submit.prevent="updateProject">
               <v-text-field
+                v-model="project.id"
+                label="Project ID"
+                :rules="[rules.required]"
+                required
+                readonly
+              ></v-text-field>
+              <v-text-field
                 v-model="project.title"
                 label="Project Title"
                 :rules="[rules.required]"
                 required
+              ></v-text-field>
+              <v-text-field
+                v-model="project.creator"
+                label="Creator ID"
+                :rules="[rules.required]"
+                required
+                readonly
               ></v-text-field>
               <v-textarea
                 v-model="project.description"
@@ -25,7 +39,6 @@
               >
                 Update
               </v-btn>
-              <v-btn @click="cancel" color="grey">Cancel</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -64,7 +77,9 @@ import ProjectService from '@/services/ProjectService';
 const router = useRouter();
 const route = useRoute();
 const project = ref({
+  id: '',
   title: '',
+  creator: '',
   description: ''
 });
 const form = ref(null);
@@ -86,24 +101,20 @@ const fetchProject = async (id) => {
 const updateProject = async () => {
   if (form.value.validate()) {
     try {
-      await ProjectService.updateProject(route.params.id, project.value);
-      router.push({ name: 'Dashboard' });
+      await ProjectService.updateProject(project.value.id, project.value);
+      router.push({ name: 'Projects' });
     } catch (error) {
       console.error('Failed to update project:', error);
     }
   }
 };
 
-const cancel = () => {
-  router.push({ name: 'Dashboard' });
-};
-
 const goToTasks = () => {
-  router.push({ name: 'ProjectTasks', params: { id: route.params.id } });
+  router.push({ name: 'ProjectTasks', params: { id: project.value.id } });
 };
 
 const goToMembers = () => {
-  router.push({ name: 'ProjectMembers', params: { id: route.params.id } });
+  router.push({ name: 'ProjectMembers', params: { id: project.value.id } });
 };
 
 onMounted(() => {

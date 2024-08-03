@@ -32,25 +32,15 @@
                 :rules="[rules.required]"
                 required
               ></v-text-field>
-              <v-row>
-                <v-col>
-                  <v-btn
-                    :disabled="!valid"
-                    color="success"
-                    class="mr-4"
-                    @click="addTask"
-                  >
-                    Add Task
-                  </v-btn>
-                </v-col>
-                <v-col>
-                  <v-btn color="grey" @click="cancel">Cancel</v-btn>
-                </v-col>
-              </v-row>
+              <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="addTask"
+              >
+                Add Task
+              </v-btn>
             </v-form>
-            <v-alert v-if="success" type="success" class="mt-4">
-              Task created successfully!
-            </v-alert>
           </v-card-text>
         </v-card>
       </v-col>
@@ -77,7 +67,6 @@ const task = ref({
 });
 const form = ref(null);
 const valid = ref(false);
-const success = ref(false);
 
 const rules = {
   required: value => !!value || 'Required.',
@@ -87,18 +76,11 @@ const addTask = async () => {
   if (form.value.validate()) {
     try {
       await ProjectService.createTask(projectId, task.value);
-      success.value = true;
-      setTimeout(() => {
-        router.push({ name: 'ProjectTasks', params: { id: projectId } });
-      }, 2000);
+      router.push({ name: 'ProjectTasks', params: { id: projectId } });
     } catch (error) {
       console.error('Failed to add task:', error);
     }
   }
-};
-
-const cancel = () => {
-  router.push({ name: 'ProjectTasks', params: { id: projectId } });
 };
 </script>
 
