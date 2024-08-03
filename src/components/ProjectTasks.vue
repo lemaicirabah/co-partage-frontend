@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card>
           <v-card-title>Project Tasks</v-card-title>
-          <v-btn color="primary" class="mb-4" @click="goToAddTask">Add New Task</v-btn>
+          <v-btn color="primary" @click="goToAddTask">Add New Task</v-btn>
 
           <!-- Search Task -->
           <v-text-field
@@ -13,14 +13,7 @@
             type="number"
             class="mt-4"
           ></v-text-field>
-          <v-row>
-            <v-col>
-              <v-btn color="primary" @click="fetchTask">Search Task</v-btn>
-            </v-col>
-            <v-col>
-              <v-btn color="grey" @click="cancel">Cancel</v-btn>
-            </v-col>
-          </v-row>
+          <v-btn color="primary" @click="fetchTask">Search Task</v-btn>
 
           <!-- Task Details -->
           <v-list v-if="task">
@@ -85,9 +78,5 @@ const deleteTask = async (taskId) => {
   } catch (error) {
     console.error('Failed to delete task:', error);
   }
-};
-
-const cancel = () => {
-  router.push({ name: 'UpdateProjects', params: { id: projectId } });
 };
 </script>

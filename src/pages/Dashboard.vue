@@ -165,13 +165,12 @@ const saveProject = async () => {
 const deleteProject = async (projectId) => {
   try {
     await ProjectService.deleteProject(projectId);
-    projects.value = projects.value.filter(project => project.id !== projectId);
-    userStore.removeProject(projectId); // Suppression du projet du store
-    userStore.logout();
+    await fetchProjectsAndTasks();
   } catch (error) {
     console.error('Failed to delete project:', error);
   }
 };
+
 const closeDialog = () => {
   dialog.value = false;
 };

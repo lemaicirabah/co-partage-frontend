@@ -1,26 +1,19 @@
 <template>
   <v-container>
-    <v-row justify="center">
-      <v-col cols="12" md="8">
+    <v-row>
+      <v-col cols="12">
         <v-card>
-          <v-card-title class="text-h5">Manage Project Members</v-card-title>
-          <v-btn color="primary" class="mb-4" @click="goToAddMember">Add New Member</v-btn>
+          <v-card-title>Manage Project Members</v-card-title>
+          <v-btn color="primary" @click="goToAddMember">Add New Member</v-btn>
 
           <!-- Search and Delete Member -->
           <v-text-field
             v-model="memberId"
             label="Enter Member ID to Delete"
             type="number"
-            class="mb-4"
+            class="mt-4"
           ></v-text-field>
-          <v-row>
-            <v-col>
-              <v-btn color="red" @click="deleteMember">Delete Member</v-btn>
-            </v-col>
-            <v-col>
-              <v-btn color="grey" @click="cancel">Cancel</v-btn>
-            </v-col>
-          </v-row>
+          <v-btn color="red" @click="deleteMember">Delete Member</v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -71,9 +64,5 @@ const deleteMember = async () => {
     snackbar.value.text = 'Failed to delete member';
     snackbar.value.show = true;
   }
-};
-
-const cancel = () => {
-  router.push({ name: 'UpdateProjects', params: { id: projectId } });
 };
 </script>
