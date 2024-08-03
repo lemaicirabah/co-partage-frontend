@@ -1,33 +1,31 @@
-import { defineStore } from "pinia";
+// src/stores/userStore.js (ou .ts)
+import { defineStore } from 'pinia';
 
-interface Skill {
-  id: number;
-  name: string;
-  description: string;
+interface Task {
+  id: string;
+  title: string;
+  assignee: string;
 }
 
-interface Profile {
-  id: number;
-  firstName: string;
-  lastName: string;
-  bio: string;
-  skills: Skill[];
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  tasks: Task[];
 }
 
 interface User {
-  id: number;
+  id: string;
   username: string;
-  email: string;
-  profile: Profile;
-  projects: number[];
+  projects: Project[];
 }
 
-export const useUserStore = defineStore("user", {
+export const useUserStore = defineStore('user', {
   state: () => ({
     user: null as User | null,
   }),
   getters: {
-    isLoggedIn: (state) => state.user !== null,
+    isLoggedIn: (state) => !!state.user,
   },
   actions: {
     setUser(user: User) {
@@ -35,6 +33,16 @@ export const useUserStore = defineStore("user", {
     },
     logout() {
       this.user = null;
+    },
+    addProject(project: Project) {
+      if (this.user) {
+        this.user.projects.push(project);
+      }
+    },
+    removeProject(projectId: string) {
+      if (this.user) {
+        this.user.projects = this.user.projects.filter(project => project.id !== projectId);
+      }
     },
   },
 });
