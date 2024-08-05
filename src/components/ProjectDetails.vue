@@ -83,6 +83,7 @@
     </v-row>
   </v-container>
 </template>
+
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -134,7 +135,7 @@ const fetchProjectDetails = async () => {
 };
 
 const goBack = () => {
-  router.push({ name: 'Projects' });
+  router.back();
 };
 
 onMounted(fetchProjectDetails);
