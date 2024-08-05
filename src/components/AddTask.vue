@@ -40,6 +40,12 @@
               >
                 Add Task
               </v-btn>
+              <v-btn
+                color="grey"
+                @click="cancel"
+              >
+                Cancel
+              </v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -81,6 +87,10 @@ const addTask = async () => {
       console.error('Failed to add task:', error);
     }
   }
+};
+
+const cancel = () => {
+  router.push({ name: 'ProjectTasks', params: { id: projectId } });
 };
 </script>
 
