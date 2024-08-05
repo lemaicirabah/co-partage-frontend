@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddMember: typeof import('./src/components/AddMember.vue')['default']
+    AddProject: typeof import('./src/components/AddProject.vue')['default']
     AddTask: typeof import('./src/components/AddTask.vue')['default']
     AllEvaluations: typeof import('./src/components/AllEvaluations.vue')['default']
     AllProjects: typeof import('./src/components/AllProjects.vue')['default']
@@ -23,6 +24,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SideNav: typeof import('./src/components/SideNav.vue')['default']
+    TaskDetails: typeof import('./src/components/TaskDetails.vue')['default']
     UpdateProject: typeof import('./src/components/UpdateProject.vue')['default']
     UserDetails: typeof import('./src/components/UserDetails.vue')['default']
   }
