@@ -4,9 +4,9 @@
       <v-col cols="12">
         <v-row justify="space-between" align="center">
           <h1>Dashboard</h1>
-          <v-btn color="red" @click="logout">Logout</v-btn>
+          <v-btn class="ml-4" color="red" @click="logout">Logout</v-btn>
         </v-row>
-        <v-card v-if="user">
+        <v-card v-if="user" class="mt-4">
           <v-card-title>Welcome, {{ user.username }}</v-card-title>
           <v-card-text>
             <p><strong>Email:</strong> {{ user.email }}</p>
@@ -17,7 +17,7 @@
             </p>
           </v-card-text>
         </v-card>
-        <v-card v-else>
+        <v-card v-else class="mt-4">
           <v-card-title>Error</v-card-title>
           <v-card-text>User data is not available.</v-card-text>
         </v-card>
@@ -25,25 +25,33 @@
           <v-card-title>
             My Projects
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="openCreateDialog">Create Project</v-btn>
+            <v-btn color="primary" @click="openCreateDialog"
+              >Create Project</v-btn
+            >
           </v-card-title>
           <v-card-text>
             <v-list>
               <v-list-item-group>
-                <v-list-item 
-                  v-for="(project, index) in projects" 
+                <v-list-item
+                  v-for="(project, index) in projects"
                   :key="index"
                   @click="goToProjectDetails(project.id)"
                 >
                   <v-list-item-content>
                     <v-list-item-title>{{ project.title }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ project.description }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>{{
+                      project.description
+                    }}</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-btn icon @click.stop="editProject(project.id)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn icon color="red" @click.stop="confirmDelete(project.id)">
+                    <v-btn
+                      icon
+                      color="red"
+                      @click.stop="confirmDelete(project.id)"
+                    >
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-list-item-action>
@@ -59,7 +67,9 @@
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="text-h5">{{ isEditMode ? 'Update Project' : 'Create Project' }}</span>
+          <span class="text-h5">{{
+            isEditMode ? "Update Project" : "Create Project"
+          }}</span>
         </v-card-title>
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit.prevent="saveProject">
@@ -74,8 +84,13 @@
               label="Project Description"
               :rules="[rules.required]"
             ></v-textarea>
-            <v-btn :disabled="!valid" color="success" class="mr-4" @click="saveProject">
-              {{ isEditMode ? 'Update' : 'Create' }}
+            <v-btn
+              :disabled="!valid"
+              color="success"
+              class="mr-4"
+              @click="saveProject"
+            >
+              {{ isEditMode ? "Update" : "Create" }}
             </v-btn>
             <v-btn @click="closeDialog">Cancel</v-btn>
           </v-form>
@@ -115,13 +130,13 @@ const valid = ref(false);
 const isEditMode = ref(false);
 const project = ref({
   id: null,
-  title: '',
-  description: '',
+  title: "",
+  description: "",
 });
 const projectIdToDelete = ref(null);
 
 const rules = {
-  required: value => !!value || 'Required.',
+  required: (value) => !!value || "Required.",
 };
 
 const fetchProjectsAndTasks = async () => {
@@ -136,11 +151,11 @@ const fetchProjectsAndTasks = async () => {
 };
 
 const openCreateDialog = () => {
-  router.push({ name: 'AddProject' });
+  router.push({ name: "AddProject" });
 };
 
 const editProject = (projectId) => {
-  router.push({ name: 'UpdateProjects', params: { id: projectId } });
+  router.push({ name: "UpdateProjects", params: { id: projectId } });
 };
 
 const saveProject = async () => {
@@ -154,7 +169,7 @@ const saveProject = async () => {
       await fetchProjectsAndTasks();
       closeDialog();
     } catch (error) {
-      console.error('Failed to save project:', error);
+      console.error("Failed to save project:", error);
     }
   }
 };
@@ -170,7 +185,7 @@ const deleteProject = async () => {
     await fetchProjectsAndTasks();
     deleteDialog.value = false;
   } catch (error) {
-    console.error('Failed to delete project:', error);
+    console.error("Failed to delete project:", error);
   }
 };
 
@@ -184,11 +199,15 @@ const closeDialog = () => {
 
 const logout = () => {
   userStore.logout();
-  router.push({ name: 'Login' });
+  router.push({ name: "Login" });
 };
 
 const goToProjectDetails = (projectId) => {
-  router.push({ name: 'ProjectDetails', params: { id: projectId }, query: { from: 'Dashboard' } });
+  router.push({
+    name: "ProjectDetails",
+    params: { id: projectId },
+    query: { from: "Dashboard" },
+  });
 };
 
 onMounted(fetchProjectsAndTasks);
@@ -197,5 +216,11 @@ onMounted(fetchProjectsAndTasks);
 <style scoped>
 .v-container {
   margin-top: 20px;
+}
+.logout-button {
+  margin-left: 16px; /* Adjust the margin as needed */
+}
+.mt-4 {
+  margin-top: 16px;
 }
 </style>
