@@ -13,7 +13,6 @@ export default {
   updateProject(id: string, projectData: string) {
     return axios.put(`co-partage/projects/${id}`, projectData);
   },
-  
   deleteProject(id: string) {
     return axios.delete(`co-partage/projects/${id}`);
   },
@@ -23,14 +22,14 @@ export default {
   getTask(projectId: string, taskId: string) {
     return axios.get(`co-partage/projects/${projectId}/tasks/${taskId}`);
   },
+  getProjectTasks(projectId: string) {
+    return axios.get(`co-partage/projects/${projectId}/tasks`);
+  },
   createTask(projectId: string, taskData: string) {
     return axios.post(`co-partage/projects/${projectId}/tasks`, taskData);
   },
   updateTask(projectId: string, taskId: string, taskData: string) {
-    return axios.put(
-      `co-partage/projects/${projectId}/tasks/${taskId}`,
-      taskData
-    );
+    return axios.put(`co-partage/projects/${projectId}/tasks/${taskId}`, taskData);
   },
   deleteTask(projectId: string, taskId: string) {
     return axios.delete(`co-partage/projects/${projectId}/tasks/${taskId}`);

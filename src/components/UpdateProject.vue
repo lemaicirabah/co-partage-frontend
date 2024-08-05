@@ -7,38 +7,31 @@
           <v-card-text>
             <v-form ref="form" v-model="valid" @submit.prevent="updateProject">
               <v-text-field
-                v-model="project.id"
-                label="Project ID"
-                :rules="[rules.required]"
-                required
-                readonly
-              ></v-text-field>
-              <v-text-field
                 v-model="project.title"
                 label="Project Title"
                 :rules="[rules.required]"
                 required
-              ></v-text-field>
-              <v-text-field
-                v-model="project.creator"
-                label="Creator ID"
-                :rules="[rules.required]"
-                required
-                readonly
               ></v-text-field>
               <v-textarea
                 v-model="project.description"
                 label="Project Description"
                 :rules="[rules.required]"
               ></v-textarea>
-              <v-btn
-                :disabled="!valid"
-                color="success"
-                class="mr-4"
-                @click="updateProject"
-              >
-                Update
-              </v-btn>
+              <v-row>
+                <v-col>
+                  <v-btn
+                    :disabled="!valid"
+                    color="success"
+                    class="mr-2"
+                    @click="updateProject"
+                  >
+                    Update
+                  </v-btn>
+                  <v-btn color="grey" @click="cancel">
+                    Cancel
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-form>
           </v-card-text>
         </v-card>
@@ -77,9 +70,7 @@ import ProjectService from '@/services/ProjectService';
 const router = useRouter();
 const route = useRoute();
 const project = ref({
-  id: '',
   title: '',
-  creator: '',
   description: ''
 });
 const form = ref(null);
@@ -115,6 +106,10 @@ const goToTasks = () => {
 
 const goToMembers = () => {
   router.push({ name: 'ProjectMembers', params: { id: project.value.id } });
+};
+
+const cancel = () => {
+  router.push({ name: 'Dashboard' });
 };
 
 onMounted(() => {
