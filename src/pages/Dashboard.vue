@@ -15,9 +15,6 @@
             <p>
               <strong>Number of Projects:</strong> {{ projects.length ?? 0 }}
             </p>
-            <p>
-              <strong>Number of Tasks:</strong> {{ upcomingTasks.length ?? 0 }}
-            </p>
           </v-card-text>
         </v-card>
         <v-card v-else>
@@ -33,34 +30,23 @@
           <v-card-text>
             <v-list>
               <v-list-item-group>
-                <v-list-item v-for="(project, index) in projects" :key="index">
+                <v-list-item 
+                  v-for="(project, index) in projects" 
+                  :key="index"
+                  @click="goToProjectDetails(project.id)"
+                >
                   <v-list-item-content>
                     <v-list-item-title>{{ project.title }}</v-list-item-title>
                     <v-list-item-subtitle>{{ project.description }}</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-btn icon @click="editProject(project.id)">
+                    <v-btn icon @click.stop="editProject(project.id)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn icon @click="deleteProject(project.id)">
+                    <v-btn icon color="red" @click.stop="confirmDelete(project.id)">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-list-item-action>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-card-text>
-        </v-card>
-        <v-card class="mt-4">
-          <v-card-title>Upcoming Tasks</v-card-title>
-          <v-card-text>
-            <v-list>
-              <v-list-item-group>
-                <v-list-item v-for="(task, index) in upcomingTasks" :key="index">
-                  <v-list-item-content>
-                    <v-list-item-title>{{ task.title }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ task.deadline }}</v-list-item-subtitle>
-                  </v-list-item-content>
                 </v-list-item>
               </v-list-item-group>
             </v-list>
@@ -96,6 +82,18 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <!-- Confirmation dialog for deleting a project -->
+    <v-dialog v-model="deleteDialog" max-width="400px">
+      <v-card>
+        <v-card-title class="text-h5">Confirm Delete</v-card-title>
+        <v-card-text>Are you sure you want to delete this project?</v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" text @click="cancelDelete">Cancel</v-btn>
+          <v-btn color="red" text @click="deleteProject">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -111,8 +109,8 @@ const userStore = useUserStore();
 const user = ref(userStore.user);
 const userId = user.value.id;
 const projects = ref([]);
-const upcomingTasks = ref([]);
 const dialog = ref(false);
+const deleteDialog = ref(false);
 const valid = ref(false);
 const isEditMode = ref(false);
 const project = ref({
@@ -120,6 +118,7 @@ const project = ref({
   title: '',
   description: '',
 });
+const projectIdToDelete = ref(null);
 
 const rules = {
   required: value => !!value || 'Required.',
@@ -129,21 +128,12 @@ const fetchProjectsAndTasks = async () => {
   const updatedUser = await UserService.getUserById(userId);
 
   if (updatedUser.data) {
-
     const projectPromises = updatedUser.data.projects.map((projectId) =>
       ProjectService.getProjectById(projectId).then((res) => res.data)
     );
     projects.value = await Promise.all(projectPromises);
-
-    // Extract and filter tasks assigned to the logged-in user
-    const allTasks = projects.value.flatMap((project) => project.tasks);
-    upcomingTasks.value = allTasks.filter(
-      (task) => task.assignee === updatedUser.data.id
-    );
   }
 };
-
-
 
 const openCreateDialog = () => {
   router.push({ name: 'AddProject' });
@@ -169,13 +159,23 @@ const saveProject = async () => {
   }
 };
 
-const deleteProject = async (projectId) => {
+const confirmDelete = (projectId) => {
+  projectIdToDelete.value = projectId;
+  deleteDialog.value = true;
+};
+
+const deleteProject = async () => {
   try {
-    await ProjectService.deleteProject(projectId);
+    await ProjectService.deleteProject(projectIdToDelete.value);
     await fetchProjectsAndTasks();
+    deleteDialog.value = false;
   } catch (error) {
     console.error('Failed to delete project:', error);
   }
+};
+
+const cancelDelete = () => {
+  deleteDialog.value = false;
 };
 
 const closeDialog = () => {
@@ -185,6 +185,10 @@ const closeDialog = () => {
 const logout = () => {
   userStore.logout();
   router.push({ name: 'Login' });
+};
+
+const goToProjectDetails = (projectId) => {
+  router.push({ name: 'ProjectDetails', params: { id: projectId }, query: { from: 'Dashboard' } });
 };
 
 onMounted(fetchProjectsAndTasks);
