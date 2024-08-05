@@ -13,9 +13,9 @@ import ProjectMembers from "@/components/ProjectMembers.vue";
 import AddMember from "@/components/AddMember.vue";
 import AddTask from "@/components/AddTask.vue";
 import EditTask from "@/components/EditTask.vue";
+import TaskDetails from '@/components/TaskDetails.vue';
 import AllUsers from "@/components/AllUsers.vue";
 import UserDetails from "@/components/UserDetails.vue";
-import AllEvaluations from "@/components/AllEvaluations.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 import { useUserStore } from "@/stores/userStore";
 
@@ -56,6 +56,7 @@ const routes = [
     name: "EditTask",
     component: EditTask,
   },
+  
   {
     path: "/projects/:id/members",
     name: "ProjectMembers",
@@ -66,7 +67,11 @@ const routes = [
     name: "AddMember",
     component: AddMember,
   },
-  
+  {
+    path: '/projects/:id/tasks/:taskId',
+    name: 'TaskDetails',
+    component: TaskDetails,
+  },
   {
     path: "/users",
     name: "Users",
